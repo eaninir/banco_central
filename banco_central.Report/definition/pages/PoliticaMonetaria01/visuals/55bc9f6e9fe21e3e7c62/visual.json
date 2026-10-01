@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "55bc9f6e9fe21e3e7c62",
+  "position": {
+    "x": 980,
+    "y": 590,
+    "z": 501,
+    "height": 470,
+    "width": 916,
+    "tabOrder": 501
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "Periodo"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.Periodo",
+              "nativeQueryRef": "Periodo",
+              "active": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "Inflación 12m"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.Inflación 12m",
+              "nativeQueryRef": "Inflación 12m",
+              "active": true,
+              "displayName": "Inflación 12 meses (%)"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "Tasa TPM"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.Tasa TPM",
+              "nativeQueryRef": "Tasa TPM",
+              "displayName": "TPM (%)"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inflación vs. TPM'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cada punto es un mes: con más inflación, el Banco Central sube la tasa'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

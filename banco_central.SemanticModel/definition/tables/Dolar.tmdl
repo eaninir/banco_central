@@ -1,0 +1,91 @@
+/// Dólar observado (promedio mensual) e inflación a 12 meses (calculado por actualizar_datos.py)
+table Dolar
+	lineageTag: 86c67661-150c-4dc2-a1e3-7f07ae87e7c7
+
+	/// Dólar observado, promedio mensual ($ por dólar)
+	measure 'Dólar Observado' = AVERAGE('Dolar'[Dolar])
+		formatString: "$"#,0.00
+		lineageTag: b11e30aa-1123-4e47-b293-7ee21f30ca57
+
+	/// Variación del dólar respecto del mismo mes del año anterior
+	measure 'Var. Dólar 12m' = AVERAGE('Dolar'[VarDolar12m])
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: 20aa03a3-fac6-4716-86f4-5a023d328ca8
+
+	/// Inflación efectiva a 12 meses
+	measure 'IPC 12 Meses' = AVERAGE('Dolar'[Inflacion12m])
+		formatString: 0.0"%"
+		lineageTag: 23668779-c616-4b04-9833-32dc5f781329
+
+	measure 'Dólar Último Mes' =
+			VAR _f = CALCULATE(MAX('Dolar'[Periodo]), FILTER('Dolar', NOT ISBLANK('Dolar'[Dolar])))
+			RETURN CALCULATE(AVERAGE('Dolar'[Dolar]), 'Dolar'[Periodo] = _f)
+		formatString: "$"#,0.00
+		lineageTag: de006708-466f-4c1f-bdb5-de75ca823fd0
+
+	measure 'Var. Dólar 12m Último Mes' =
+			VAR _f = CALCULATE(MAX('Dolar'[Periodo]), FILTER('Dolar', NOT ISBLANK('Dolar'[VarDolar12m])))
+			RETURN CALCULATE(AVERAGE('Dolar'[VarDolar12m]), 'Dolar'[Periodo] = _f)
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: 2c6d79d8-a9a7-4a91-a7ee-fe154a13447e
+
+	column Periodo
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 111f914b-55a4-4ad7-92f8-6975dec8eb1e
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		variation Variación
+			isDefault
+			relationship: 43db1137-cbeb-4d3d-95d1-708206bfb9ca
+			defaultHierarchy: LocalDateTable_aad3f1d5-6f49-41a2-bca5-8cd9877f21bf.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Año
+		dataType: int64
+		lineageTag: 33ab9e90-d55f-4edc-bb1b-3aff0b0e6db7
+		summarizeBy: sum
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dolar
+		dataType: double
+		formatString: "$"#,0.00
+		lineageTag: c9a02fd5-6369-4f59-ad4f-01132b2611fe
+		summarizeBy: sum
+		sourceColumn: Dolar
+
+		annotation SummarizationSetBy = Automatic
+
+	column VarDolar12m
+		dataType: double
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: ffb13334-91f5-452b-9e59-c6b14c319124
+		summarizeBy: sum
+		sourceColumn: VarDolar12m
+
+		annotation SummarizationSetBy = Automatic
+
+	column Inflacion12m
+		dataType: double
+		formatString: 0.0"%"
+		lineageTag: 951e5c9f-1edb-4fa6-bc8b-e40ce5a86de4
+		summarizeBy: sum
+		sourceColumn: Inflacion12m
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dolar = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="dolar",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Periodo", type date}, {"Año", Int64.Type}, {"Dolar", type number}, {"VarDolar12m", type number}, {"Inflacion12m", type number}})
+				in
+				    Typed
+

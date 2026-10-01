@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "382f68a8518b92b91a72",
+  "position": {
+    "x": 24,
+    "y": 590,
+    "z": 500,
+    "height": 470,
+    "width": 940,
+    "tabOrder": 500
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DesempleoImacec"
+                    }
+                  },
+                  "Property": "Periodo"
+                }
+              },
+              "queryRef": "DesempleoImacec.Periodo",
+              "nativeQueryRef": "Periodo",
+              "active": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DesempleoImacec"
+                    }
+                  },
+                  "Property": "Crecimiento Imacec Rezagado"
+                }
+              },
+              "queryRef": "DesempleoImacec.Crecimiento Imacec Rezagado",
+              "nativeQueryRef": "Crecimiento Imacec Rezagado",
+              "active": true,
+              "displayName": "Crecimiento Imacec rezagado (%)"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DesempleoImacec"
+                    }
+                  },
+                  "Property": "Var. Desempleo"
+                }
+              },
+              "queryRef": "DesempleoImacec.Var. Desempleo",
+              "nativeQueryRef": "Var. Desempleo",
+              "displayName": "Var. desempleo (pp)"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ley de Okun'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cada punto es un mes: más crecimiento del Imacec, menos desempleo'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

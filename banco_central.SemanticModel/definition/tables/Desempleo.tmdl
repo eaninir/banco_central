@@ -1,0 +1,114 @@
+table Desempleo
+	lineageTag: a81b1597-25b4-4fcc-ae5a-f22b5103663d
+
+	measure 'Tasa Promedio' = AVERAGE('Desempleo'[Tasa])
+		formatString: 0.00"%"
+		lineageTag: c3ffd925-200a-47b0-8484-1f96735a9443
+
+	measure 'Tasa Máxima' = MAX('Desempleo'[Tasa])
+		formatString: 0.00"%"
+		lineageTag: 39eab832-0b46-4586-8fb0-f5e191cfce28
+
+	measure 'Tasa Mínima' = MIN('Desempleo'[Tasa])
+		formatString: 0.00"%"
+		lineageTag: a4cd99ff-a670-4ac0-92bf-8d02dfb26757
+
+	/// Cambio en puntos porcentuales: tasa del último mes del contexto vs el mismo mes del año anterior
+	measure 'Variación Interanual' =
+			VAR _fin = MAX('Desempleo'[Periodo])
+			VAR _tasaActual =
+			    CALCULATE(AVERAGE('Desempleo'[Tasa]), REMOVEFILTERS('Desempleo'), 'Desempleo'[Periodo] = _fin)
+			VAR _tasaAnterior =
+			    CALCULATE(AVERAGE('Desempleo'[Tasa]), REMOVEFILTERS('Desempleo'), 'Desempleo'[Periodo] = EDATE(_fin, -12))
+			RETURN
+			IF(NOT ISBLANK(_tasaAnterior), _tasaActual - _tasaAnterior)
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 89ac22da-6a9f-4005-a271-4135e137590d
+
+	measure 'Meses Registrados' = COUNTROWS('Desempleo')
+		formatString: #,##0
+		lineageTag: 87a26ca8-f93a-4ea3-a84c-aac10f43ad3c
+
+	/// Mediana de la tasa por mes (patrón estacional típico)
+	measure 'Tasa Mediana' =
+			CALCULATE(
+			    MEDIAN('Desempleo'[Tasa]),
+			    ALLEXCEPT('Desempleo', 'Desempleo'[Mes], 'Desempleo'[MesNum])
+			)
+		formatString: 0.00"%"
+		lineageTag: 0cb882fe-167a-487e-94fa-9fcc94f16e56
+
+	/// Tasa del año más reciente dentro de la selección, para comparar contra la mediana
+	measure 'Tasa Año Más Reciente' =
+			VAR _ultimo = CALCULATE(MAX('Desempleo'[Año]), ALLSELECTED('Desempleo'))
+			RETURN
+			CALCULATE(AVERAGE('Desempleo'[Tasa]), KEEPFILTERS('Desempleo'[Año] = _ultimo))
+		formatString: 0.00"%"
+		lineageTag: 8fab47cd-6ef5-49af-b584-bcbe39e0c9d9
+
+	column Año
+		dataType: int64
+		lineageTag: 1da5afa0-952c-4ec6-80d4-a059f685b39e
+		summarizeBy: sum
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: cfca8787-86a3-4e99-8d72-beb4e4611a2c
+		summarizeBy: none
+		sourceColumn: Mes
+		sortByColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tasa
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: f095e6cd-2315-49cc-9fea-200de954a7d1
+		summarizeBy: sum
+		sourceColumn: Tasa
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesNum
+		dataType: int64
+		isHidden
+		lineageTag: de0b5057-c379-4760-9a9a-b8b6a97a0488
+		summarizeBy: sum
+		sourceColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Periodo
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2b3259d5-8c37-4546-a347-7660a0d030ae
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		variation Variación
+			isDefault
+			relationship: 10e2e4f5-c01c-4422-b6e9-0835ff6f6a9d
+			defaultHierarchy: LocalDateTable_44ed58d5-093a-4f76-bb97-dd1f08148e49.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Desempleo = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    desempleo_Sheet = Source{[Item="desempleo",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(desempleo_Sheet, [PromoteAllScalars=true]),
+				    Unpivoted = Table.UnpivotOtherColumns(Headers, {"Año"}, "Mes", "Tasa"),
+				    MesNum = Table.AddColumn(Unpivoted, "MesNum", each List.PositionOf({"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"}, [Mes]) + 1, Int64.Type),
+				    Periodo = Table.AddColumn(MesNum, "Periodo", each Date.From(#date([Año], [MesNum], 1)), type date),
+				    Typed = Table.TransformColumnTypes(Periodo, {{"Año", Int64.Type}, {"Tasa", type number}}),
+				    Filtered = Table.SelectRows(Typed, each [Tasa] <> null)
+				in
+				    Filtered
+

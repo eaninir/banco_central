@@ -1,0 +1,7 @@
+{
+  "version": "1.0",
+  "autodetectRelationships": true,
+  "typeDetectionEnabled": true,
+  "relationshipImportEnabled": true,
+  "shouldNotifyUserOfNameConflictResolution": true
+}

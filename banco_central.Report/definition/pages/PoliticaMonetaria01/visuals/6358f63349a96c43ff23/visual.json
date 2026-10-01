@@ -1,0 +1,98 @@
+{
+  "position": {
+    "x": 470,
+    "y": 20,
+    "z": 2000,
+    "height": 80,
+    "width": 1426,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "TPM Último Mes"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.TPM Último Mes",
+              "nativeQueryRef": "TPM Último Mes",
+              "displayName": "TPM"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "Inflación 12m Último Mes"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.Inflación 12m Último Mes",
+              "nativeQueryRef": "Inflación 12m Último Mes",
+              "displayName": "Inflación 12 meses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "Expectativas Último Mes"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.Expectativas Último Mes",
+              "nativeQueryRef": "Expectativas Último Mes",
+              "displayName": "Expectativas 12 meses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PoliticaMonetaria"
+                    }
+                  },
+                  "Property": "Tasa Real Último Mes"
+                }
+              },
+              "queryRef": "PoliticaMonetaria.Tasa Real Último Mes",
+              "nativeQueryRef": "Tasa Real Último Mes",
+              "displayName": "Tasa real"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PMResumen"
+                    }
+                  },
+                  "Property": "Rezago Reacción"
+                }
+              },
+              "queryRef": "PMResumen.Rezago Reacción",
+              "nativeQueryRef": "Rezago Reacción",
+              "displayName": "Reacción de la TPM"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "name": "6358f63349a96c43ff23",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json"
+}

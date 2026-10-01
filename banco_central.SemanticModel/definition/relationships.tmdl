@@ -1,0 +1,28 @@
+relationship 10e2e4f5-c01c-4422-b6e9-0835ff6f6a9d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Desempleo.Periodo
+	toColumn: LocalDateTable_44ed58d5-093a-4f76-bb97-dd1f08148e49.Date
+
+relationship c4d1bee8-497f-4783-a3ac-9ce6a09d830d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: IPC.Periodo
+	toColumn: LocalDateTable_96426a8a-f0d3-4bc4-b560-36cecf4bc258.Date
+
+relationship d711e9cd-2120-4b17-b7a5-b836d8a3195e
+	fromColumn: DesempleoSTL.Periodo
+	toColumn: Desempleo.Periodo
+
+relationship 8bf7ea4c-835e-41c3-b87e-0236f44ac18d
+	fromColumn: DesempleoImacec.Periodo
+	toColumn: Desempleo.Periodo
+
+relationship 57934390-a95e-4623-8277-d71070c66418
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PoliticaMonetaria.Periodo
+	toColumn: LocalDateTable_22c29e5e-528e-41b9-9742-780c95835077.Date
+
+relationship 43db1137-cbeb-4d3d-95d1-708206bfb9ca
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dolar.Periodo
+	toColumn: LocalDateTable_aad3f1d5-6f49-41a2-bca5-8cd9877f21bf.Date
+

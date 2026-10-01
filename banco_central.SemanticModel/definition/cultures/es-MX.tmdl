@@ -1,0 +1,681 @@
+cultureInfo es-MX
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "desempleostl.tendencia_stl": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DesempleoSTL",
+			          "ConceptualProperty": "Tendencia STL"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tendencia (STL)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "desempleostl.punto_de_inflexión": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DesempleoSTL",
+			          "ConceptualProperty": "Punto de Inflexión"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Punto de inflexión": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "desempleoimacec.crecimiento_imacec_rezagado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DesempleoImacec",
+			          "ConceptualProperty": "Crecimiento Imacec Rezagado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Crecimiento Imacec rezagado (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "desempleoimacec.var__desempleo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DesempleoImacec",
+			          "ConceptualProperty": "Var. Desempleo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Var. desempleo (pp)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Var. desempleo (pp, eje izq.)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Observada": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "desempleoimacec.crecimiento_imacec": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DesempleoImacec",
+			          "ConceptualProperty": "Crecimiento Imacec"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Crecimiento Imacec (%, eje der.)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "desempleoimacec.var__desempleo_predicha": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DesempleoImacec",
+			          "ConceptualProperty": "Var. Desempleo Predicha"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Predicha por Okun": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.tasa_tpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Tasa TPM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TPM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "TPM (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.inflación_12m": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Inflación 12m"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Inflación 12 meses": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Inflación 12 meses (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.expectativas_inflación": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Expectativas Inflación"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expectativas 12 meses": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.meta_inflación": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Meta Inflación"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Meta 3%": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.tasa_real": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Tasa Real"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tasa real": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.tpm_último_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "TPM Último Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TPM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.inflación_12m_último_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Inflación 12m Último Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Inflación 12 meses": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.expectativas_último_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Expectativas Último Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expectativas 12 meses": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "politicamonetaria.tasa_real_último_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PoliticaMonetaria",
+			          "ConceptualProperty": "Tasa Real Último Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tasa real": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pmrezagos.reacción_tpm": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PMRezagos",
+			          "ConceptualProperty": "Reacción TPM"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reacción: inflación → TPM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pmrezagos.efecto_en_inflación": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PMRezagos",
+			          "ConceptualProperty": "Efecto en Inflación"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Efecto: TPM → inflación": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "pmresumen.rezago_reacción": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "PMResumen",
+			          "ConceptualProperty": "Rezago Reacción"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reacción de la TPM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspaso.efecto_del_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Traspaso",
+			          "ConceptualProperty": "Efecto del Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Efecto del mes": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspaso.traspaso_acumulado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Traspaso",
+			          "ConceptualProperty": "Traspaso Acumulado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Traspaso acumulado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspaso.traspaso_límite_inferior": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Traspaso",
+			          "ConceptualProperty": "Traspaso Límite Inferior"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Límite inferior 95%": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspaso.traspaso_límite_superior": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Traspaso",
+			          "ConceptualProperty": "Traspaso Límite Superior"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Límite superior 95%": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dolar.dólar_observado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dolar",
+			          "ConceptualProperty": "Dólar Observado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dólar observado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dolar.var__dólar_12m": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dolar",
+			          "ConceptualProperty": "Var. Dólar 12m"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Var. dólar 12 meses (%, eje izq.)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dolar.ipc_12_meses": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dolar",
+			          "ConceptualProperty": "IPC 12 Meses"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Inflación 12 meses (%, eje der.)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dolar.dólar_último_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dolar",
+			          "ConceptualProperty": "Dólar Último Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dólar observado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dolar.var__dólar_12m_último_mes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dolar",
+			          "ConceptualProperty": "Var. Dólar 12m Último Mes"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Variación 12 meses": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspasoresumen.traspaso_3_meses": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "TraspasoResumen",
+			          "ConceptualProperty": "Traspaso 3 Meses"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Traspaso a 3 meses (alza 10%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspasoresumen.traspaso_12_meses": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "TraspasoResumen",
+			          "ConceptualProperty": "Traspaso 12 Meses"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Traspaso a 12 meses (alza 10%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "traspasoresumen.intervalo_traspaso_12m": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "TraspasoResumen",
+			          "ConceptualProperty": "Intervalo Traspaso 12m"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Intervalo 95% (12 meses)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

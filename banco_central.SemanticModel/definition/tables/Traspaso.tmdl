@@ -1,0 +1,70 @@
+/// Traspaso del dólar al IPC por horizonte: pp de IPC por un alza de 10% del dólar
+table Traspaso
+	lineageTag: b05155ee-4602-4369-afaf-89ce5056da30
+
+	/// Alza acumulada del IPC h meses después de un alza de 10% del dólar
+	measure 'Traspaso Acumulado' = AVERAGE('Traspaso'[Acumulado])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 66bb678a-2411-42a5-83b9-b7f4910cf875
+
+	/// Intervalo de confianza 95%
+	measure 'Traspaso Límite Inferior' = AVERAGE('Traspaso'[LimInf])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 08d164ce-dc72-451e-aaea-53bc22df4c29
+
+	/// Intervalo de confianza 95%
+	measure 'Traspaso Límite Superior' = AVERAGE('Traspaso'[LimSup])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 79fecb45-bd44-4451-8507-c615054c5f1b
+
+	/// Parte del traspaso que ocurre en cada mes de rezago
+	measure 'Efecto del Mes' = AVERAGE('Traspaso'[EfectoMes])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: f356f4ec-0c41-4187-abf6-0f3bc3c5e1f4
+
+	column Horizonte
+		dataType: int64
+		formatString: 0
+		lineageTag: c93eeb1e-81ef-45ea-8470-4754e0d60348
+		summarizeBy: none
+		sourceColumn: Horizonte
+
+	column EfectoMes
+		dataType: double
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 12e7057d-da10-464b-b05c-111f3cd622a3
+		summarizeBy: none
+		sourceColumn: EfectoMes
+
+	column Acumulado
+		dataType: double
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: be8a089f-fa29-4ad6-8a4b-5d226dcd300c
+		summarizeBy: none
+		sourceColumn: Acumulado
+
+	column LimInf
+		dataType: double
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: b85b8469-b315-4e7a-8e17-77a5f7040ada
+		summarizeBy: none
+		sourceColumn: LimInf
+
+	column LimSup
+		dataType: double
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 74b707e4-ff39-47a9-978f-4a3caa18ee57
+		summarizeBy: none
+		sourceColumn: LimSup
+
+	partition Traspaso = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="traspaso",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Horizonte", Int64.Type}, {"EfectoMes", type number}, {"Acumulado", type number}, {"LimInf", type number}, {"LimSup", type number}})
+				in
+				    Typed
+

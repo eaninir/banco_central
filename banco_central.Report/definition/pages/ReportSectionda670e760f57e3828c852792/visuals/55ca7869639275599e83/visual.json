@@ -1,0 +1,111 @@
+{
+  "position": {
+    "x": 470,
+    "y": 20,
+    "z": 2000,
+    "height": 80,
+    "width": 1426,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IPC"
+                    }
+                  },
+                  "Property": "Variación Promedio"
+                }
+              },
+              "queryRef": "IPC.Variación Promedio",
+              "nativeQueryRef": "Variación Promedio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IPC"
+                    }
+                  },
+                  "Property": "Variación Máxima"
+                }
+              },
+              "queryRef": "IPC.Variación Máxima",
+              "nativeQueryRef": "Variación Máxima"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IPC"
+                    }
+                  },
+                  "Property": "Variación Mínima"
+                }
+              },
+              "queryRef": "IPC.Variación Mínima",
+              "nativeQueryRef": "Variación Mínima"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IPC"
+                    }
+                  },
+                  "Property": "Inflación 12 Meses"
+                }
+              },
+              "queryRef": "IPC.Inflación 12 Meses",
+              "nativeQueryRef": "Inflación 12 Meses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "IPC"
+                    }
+                  },
+                  "Property": "Meses Registrados IPC"
+                }
+              },
+              "queryRef": "IPC.Meses Registrados IPC",
+              "nativeQueryRef": "Meses Registrados IPC"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    }
+  },
+  "name": "55ca7869639275599e83",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json"
+}

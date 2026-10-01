@@ -1,0 +1,178 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Desempleo",
+          "nodeLineageTag": "a81b1597-25b4-4fcc-ae5a-f22b5103663d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 0
+          },
+          "nodeIndex": "IPC",
+          "nodeLineageTag": "658580b1-ed09-435e-85e0-68a796fbf662",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 0
+          },
+          "nodeIndex": "DesempleoSTL",
+          "nodeLineageTag": "312d593e-f7cc-416e-9ed3-42230eafeed3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 0
+          },
+          "nodeIndex": "DesempleoImacec",
+          "nodeLineageTag": "38e589ac-0cc3-4462-9d00-b642ed8b5f27",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "Okun",
+          "nodeLineageTag": "96e22d97-d674-4d1f-800d-c705ec4ec51b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 62
+          },
+          "nodeIndex": "Rezagos",
+          "nodeLineageTag": "8ea6467f-ab11-4d44-a021-f5a9e6ce7186",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 26
+          },
+          "nodeIndex": "PMResumen",
+          "nodeLineageTag": "d378d226-a5ce-4c37-a32d-d4746834682c",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 50
+          },
+          "nodeIndex": "PMRezagos",
+          "nodeLineageTag": "beb4cf63-c28a-4a65-8cac-906f775b1150",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 0
+          },
+          "nodeIndex": "PoliticaMonetaria",
+          "nodeLineageTag": "2ae2d9c1-299e-4303-82c9-733f3e221999",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 0
+          },
+          "nodeIndex": "Dolar",
+          "nodeLineageTag": "86c67661-150c-4dc2-a1e3-7f07ae87e7c7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2840,
+            "y": 2
+          },
+          "nodeIndex": "Traspaso",
+          "nodeLineageTag": "b05155ee-4602-4369-afaf-89ce5056da30",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3124,
+            "y": 0
+          },
+          "nodeIndex": "TraspasoResumen",
+          "nodeLineageTag": "d77a9e4a-f968-45ef-b2ed-d01248ca4f59",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

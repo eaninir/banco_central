@@ -1,0 +1,91 @@
+/// Descomposición STL robusta de la tasa de desempleo (calculada por actualizar_datos.py)
+table DesempleoSTL
+	lineageTag: 312d593e-f7cc-416e-9ed3-42230eafeed3
+
+	/// Componente de tendencia de la STL (sin estacionalidad ni ruido; la pandemia queda en el residuo)
+	measure 'Tendencia STL' = AVERAGE('DesempleoSTL'[Tendencia])
+		formatString: 0.00"%"
+		lineageTag: 17c55285-569c-4ffb-abd2-88f1af78f310
+
+	/// Tasa observada menos el componente estacional
+	measure 'Tasa Desestacionalizada' = AVERAGE('DesempleoSTL'[Desestacionalizada])
+		formatString: 0.00"%"
+		lineageTag: 7980ad75-3cab-48c2-aef3-dd53373de634
+
+	/// Valor de la tendencia solo en el mes donde cambia su pendiente (para marcarlo en el gráfico)
+	measure 'Punto de Inflexión' = CALCULATE(AVERAGE('DesempleoSTL'[Tendencia]), 'DesempleoSTL'[Quiebre] = 1)
+		formatString: 0.00"%"
+		lineageTag: 6fa6ec3d-ace4-4da6-9fe4-07e57a15867b
+
+	/// Mes del punto de inflexión de la tendencia, como texto
+	measure 'Fecha Inflexión' =
+			VAR _fecha = CALCULATE(MAX('DesempleoSTL'[Periodo]), REMOVEFILTERS('DesempleoSTL'), 'DesempleoSTL'[Quiebre] = 1)
+			RETURN FORMAT(_fecha, "mmmm yyyy", "es-CL")
+		lineageTag: 55f3bfe4-358c-4d38-9e5a-c2d3ddee7138
+
+	/// Subtítulo dinámico del gráfico de evolución
+	measure 'Subtítulo Tendencia' = "Tendencia STL robusta: sin estacionalidad y con la pandemia aislada en el residuo. Punto = inflexión (" & [Fecha Inflexión] & ")"
+		lineageTag: d50c3ddb-fdcb-4fe5-898f-8d09ce9dc1b4
+
+	column Periodo
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0e67baf2-05e4-497f-abae-5d8c27008895
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Tasa
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: ad2464ff-4375-44c0-a4a5-a2046fd1b07f
+		summarizeBy: none
+		sourceColumn: Tasa
+
+	column Tendencia
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: f60f8e5b-f48c-4444-87f3-0723b26adad7
+		summarizeBy: none
+		sourceColumn: Tendencia
+
+	column Estacional
+		dataType: double
+		formatString: +0.00;-0.00;0.00
+		lineageTag: 1191e1c2-6a5a-45e5-90d0-3041fcc1a2a0
+		summarizeBy: none
+		sourceColumn: Estacional
+
+	column Residuo
+		dataType: double
+		formatString: +0.00;-0.00;0.00
+		lineageTag: a9759590-ab3d-442c-9bb4-e8c398f1591b
+		summarizeBy: none
+		sourceColumn: Residuo
+
+	column Desestacionalizada
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: eff04da7-192e-4f1d-bd6d-03233e9440f4
+		summarizeBy: none
+		sourceColumn: Desestacionalizada
+
+	column Quiebre
+		dataType: int64
+		isHidden
+		lineageTag: c51661ef-7606-4c94-8e6d-90939ede4971
+		summarizeBy: none
+		sourceColumn: Quiebre
+
+	partition DesempleoSTL = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    stl_Sheet = Source{[Item="desempleo_stl",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(stl_Sheet, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Periodo", type date}, {"Tasa", type number}, {"Tendencia", type number}, {"Estacional", type number}, {"Residuo", type number}, {"Desestacionalizada", type number}, {"Quiebre", Int64.Type}})
+				in
+				    Typed
+

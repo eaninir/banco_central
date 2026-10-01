@@ -1,0 +1,133 @@
+{
+  "position": {
+    "x": 980,
+    "y": 590,
+    "z": 501,
+    "height": 470,
+    "width": 916,
+    "tabOrder": 501
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Año"
+                }
+              },
+              "queryRef": "Desempleo.Año",
+              "nativeQueryRef": "Año"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Mes"
+                }
+              },
+              "queryRef": "Desempleo.Mes",
+              "nativeQueryRef": "Mes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Tasa"
+                }
+              },
+              "queryRef": "Desempleo.Tasa",
+              "nativeQueryRef": "Tasa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Variación Interanual"
+                }
+              },
+              "queryRef": "Desempleo.Variación Interanual",
+              "nativeQueryRef": "Variación Interanual"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Desempleo"
+                  }
+                },
+                "Property": "Periodo"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Detalle Mensual de Desempleo'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "name": "c0c7e22d15c28aa7c464",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json"
+}

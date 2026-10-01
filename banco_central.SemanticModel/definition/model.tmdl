@@ -1,0 +1,35 @@
+model Model
+	culture: es-MX
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CL
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+annotation PBI_QueryOrder = ["Desempleo","IPC","DesempleoSTL","DesempleoImacec","Okun","Rezagos","PMResumen","PMRezagos","PoliticaMonetaria","TraspasoResumen","Traspaso","Dolar"]
+
+ref table Desempleo
+ref table IPC
+ref table DateTableTemplate_f84ee2a7-6053-4b9b-bb6c-861f631e3a21
+ref table LocalDateTable_44ed58d5-093a-4f76-bb97-dd1f08148e49
+ref table LocalDateTable_96426a8a-f0d3-4bc4-b560-36cecf4bc258
+ref table DesempleoSTL
+ref table DesempleoImacec
+ref table Okun
+ref table Rezagos
+ref table PMResumen
+ref table PMRezagos
+ref table PoliticaMonetaria
+ref table LocalDateTable_22c29e5e-528e-41b9-9742-780c95835077
+ref table TraspasoResumen
+ref table Traspaso
+ref table Dolar
+ref table LocalDateTable_aad3f1d5-6f49-41a2-bca5-8cd9877f21bf
+
+ref cultureInfo es-MX
+

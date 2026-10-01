@@ -1,0 +1,40 @@
+/// Correlación entre la variación del desempleo y el crecimiento del Imacec según rezago (meses)
+table Rezagos
+	lineageTag: 8ea6467f-ab11-4d44-a021-f5a9e6ce7186
+
+	measure Correlación = AVERAGE('Rezagos'[Correlacion])
+		formatString: +0.00;-0.00;0.00
+		lineageTag: 5abfbdfe-2f73-4645-a5ad-54f036313763
+
+	column Rezago
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a73b8df-c79e-4737-9164-0b7ed6685e42
+		summarizeBy: none
+		sourceColumn: Rezago
+
+	column Correlacion
+		dataType: double
+		formatString: +0.00;-0.00;0.00
+		lineageTag: f54492c7-fb9e-454b-b88b-d0d6041eac34
+		summarizeBy: none
+		sourceColumn: Correlacion
+
+	column Optimo
+		dataType: int64
+		isHidden
+		lineageTag: c5a14400-0dbe-4d13-874a-7f76b8590dac
+		summarizeBy: none
+		sourceColumn: Optimo
+
+	partition Rezagos = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="rezagos",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Rezago", Int64.Type}, {"Correlacion", type number}, {"Optimo", Int64.Type}})
+				in
+				    Typed
+

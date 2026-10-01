@@ -1,0 +1,44 @@
+/// Correlaciones por rezago entre TPM e inflación
+table PMRezagos
+	lineageTag: beb4cf63-c28a-4a65-8cac-906f775b1150
+
+	/// Correlación entre la inflación de hoy y la TPM k meses después
+	measure 'Reacción TPM' = AVERAGE('PMRezagos'[Reaccion])
+		formatString: +0.00;-0.00;0.00
+		lineageTag: b3c8ec1c-7a8e-4bd9-bb2b-d95bb722e9de
+
+	/// Correlación entre el cambio de la TPM y el cambio de la inflación en los k meses siguientes
+	measure 'Efecto en Inflación' = AVERAGE('PMRezagos'[Efecto])
+		formatString: +0.00;-0.00;0.00
+		lineageTag: 359eebe9-903d-4e33-92fd-15e8d72db053
+
+	column Rezago
+		dataType: int64
+		formatString: 0
+		lineageTag: f4113918-a9ed-4726-bba1-daafe8009556
+		summarizeBy: none
+		sourceColumn: Rezago
+
+	column Reaccion
+		dataType: double
+		lineageTag: ed49a7e7-22fe-46d5-b59b-f04451a34321
+		summarizeBy: none
+		sourceColumn: Reaccion
+
+	column Efecto
+		dataType: double
+		lineageTag: c0b6e73c-191d-4814-bf7e-0cdab7d00a94
+		summarizeBy: none
+		sourceColumn: Efecto
+
+	partition PMRezagos = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="pm_rezagos",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Rezago", Int64.Type}, {"Reaccion", type number}, {"Efecto", type number}})
+				in
+				    Typed
+

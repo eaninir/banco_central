@@ -1,0 +1,93 @@
+{
+  "position": {
+    "x": 470,
+    "y": 20,
+    "z": 2000,
+    "height": 80,
+    "width": 1426,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Tasa Promedio"
+                }
+              },
+              "queryRef": "Desempleo.Tasa Promedio",
+              "nativeQueryRef": "Tasa Promedio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Tasa Máxima"
+                }
+              },
+              "queryRef": "Desempleo.Tasa Máxima",
+              "nativeQueryRef": "Tasa Máxima"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Tasa Mínima"
+                }
+              },
+              "queryRef": "Desempleo.Tasa Mínima",
+              "nativeQueryRef": "Tasa Mínima"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Variación Interanual"
+                }
+              },
+              "queryRef": "Desempleo.Variación Interanual",
+              "nativeQueryRef": "Variación Interanual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Desempleo"
+                    }
+                  },
+                  "Property": "Meses Registrados"
+                }
+              },
+              "queryRef": "Desempleo.Meses Registrados",
+              "nativeQueryRef": "Meses Registrados"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "name": "3d6cbb95169f8613181d",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json"
+}

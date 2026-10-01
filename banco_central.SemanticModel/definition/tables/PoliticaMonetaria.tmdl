@@ -1,0 +1,132 @@
+/// TPM, expectativas de inflación (EEE) e inflación efectiva a 12 meses (calculado por actualizar_datos.py)
+table PoliticaMonetaria
+	lineageTag: 2ae2d9c1-299e-4303-82c9-733f3e221999
+
+	/// Tasa de política monetaria (promedio mensual)
+	measure 'Tasa TPM' = AVERAGE('PoliticaMonetaria'[TPM])
+		formatString: 0.00"%"
+		lineageTag: b5f2e028-2b5d-4a50-818c-8032ca4d6d35
+
+	/// Mediana de la Encuesta de Expectativas Económicas, inflación a 12 meses
+	measure 'Expectativas Inflación' = AVERAGE('PoliticaMonetaria'[Expectativas])
+		formatString: 0.00"%"
+		lineageTag: a36ccbd9-123b-4b41-9ddf-040ec9193eba
+
+	/// Inflación efectiva acumulada en 12 meses
+	measure 'Inflación 12m' = AVERAGE('PoliticaMonetaria'[Inflacion12m])
+		formatString: 0.00"%"
+		lineageTag: 729d0564-6d29-4bec-a0a8-7326817cda16
+
+	/// TPM menos expectativas de inflación: positiva = política restrictiva
+	measure 'Tasa Real' = AVERAGE('PoliticaMonetaria'[TasaReal])
+		formatString: +0.00"%";-0.00"%";0.00"%"
+		lineageTag: 9608ee2e-0c43-4e0e-821a-c9a5ad858aca
+
+	/// Meta de inflación del Banco Central (3%)
+	measure 'Meta Inflación' = IF(NOT ISEMPTY('PoliticaMonetaria'), 3)
+		formatString: 0.00"%"
+		lineageTag: cfaf4883-b3c6-46d1-b7af-1318455cfc3f
+
+	measure 'TPM Último Mes' =
+			VAR _f = CALCULATE(MAX('PoliticaMonetaria'[Periodo]), FILTER('PoliticaMonetaria', NOT ISBLANK('PoliticaMonetaria'[TPM])))
+			RETURN CALCULATE(AVERAGE('PoliticaMonetaria'[TPM]), 'PoliticaMonetaria'[Periodo] = _f)
+		formatString: 0.00"%"
+		lineageTag: 6ef93d29-78b4-4e88-b58b-d21905217557
+
+	measure 'Expectativas Último Mes' =
+			VAR _f = CALCULATE(MAX('PoliticaMonetaria'[Periodo]), FILTER('PoliticaMonetaria', NOT ISBLANK('PoliticaMonetaria'[Expectativas])))
+			RETURN CALCULATE(AVERAGE('PoliticaMonetaria'[Expectativas]), 'PoliticaMonetaria'[Periodo] = _f)
+		formatString: 0.00"%"
+		lineageTag: 01b51e78-067c-4844-9755-c9899ca6976b
+
+	measure 'Inflación 12m Último Mes' =
+			VAR _f = CALCULATE(MAX('PoliticaMonetaria'[Periodo]), FILTER('PoliticaMonetaria', NOT ISBLANK('PoliticaMonetaria'[Inflacion12m])))
+			RETURN CALCULATE(AVERAGE('PoliticaMonetaria'[Inflacion12m]), 'PoliticaMonetaria'[Periodo] = _f)
+		formatString: 0.00"%"
+		lineageTag: cb39f59c-4c51-438d-bb93-fa69c45897cf
+
+	measure 'Tasa Real Último Mes' =
+			VAR _f = CALCULATE(MAX('PoliticaMonetaria'[Periodo]), FILTER('PoliticaMonetaria', NOT ISBLANK('PoliticaMonetaria'[TasaReal])))
+			RETURN CALCULATE(AVERAGE('PoliticaMonetaria'[TasaReal]), 'PoliticaMonetaria'[Periodo] = _f)
+		formatString: +0.00"%";-0.00"%";0.00"%"
+		lineageTag: 08633569-3f66-400b-957c-7cb794bdd870
+
+	column Periodo
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4286eda1-93bf-4092-b08e-17a7447437d5
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		variation Variación
+			isDefault
+			relationship: 57934390-a95e-4623-8277-d71070c66418
+			defaultHierarchy: LocalDateTable_22c29e5e-528e-41b9-9742-780c95835077.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Año
+		dataType: int64
+		lineageTag: e39961de-9af0-4b74-aaff-8dc932ec0256
+		summarizeBy: sum
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column TPM
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: dc63e168-2ae6-441f-8d6b-4472f773a0e4
+		summarizeBy: sum
+		sourceColumn: TPM
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expectativas
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: 64fab2f2-b8eb-4756-8e55-908e4cfd50cd
+		summarizeBy: sum
+		sourceColumn: Expectativas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Inflacion12m
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: 32b8fc38-7bfa-4f1a-9972-d6658b57af8e
+		summarizeBy: sum
+		sourceColumn: Inflacion12m
+
+		annotation SummarizationSetBy = Automatic
+
+	column TasaReal
+		dataType: double
+		formatString: +0.00"%";-0.00"%";0.00"%"
+		lineageTag: 7377331d-8815-458b-b875-19e31e5f9acb
+		summarizeBy: sum
+		sourceColumn: TasaReal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Meta
+		dataType: double
+		isHidden
+		formatString: 0.00"%"
+		lineageTag: 205ecbc1-d389-42a8-86b9-e13cb2806549
+		summarizeBy: sum
+		sourceColumn: Meta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PoliticaMonetaria = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="politica_monetaria",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Periodo", type date}, {"Año", Int64.Type}, {"TPM", type number}, {"Expectativas", type number}, {"Inflacion12m", type number}, {"TasaReal", type number}, {"Meta", type number}})
+				in
+				    Typed
+

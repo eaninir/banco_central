@@ -1,0 +1,93 @@
+{
+  "position": {
+    "x": 470,
+    "y": 20,
+    "z": 2000,
+    "height": 80,
+    "width": 1426,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Okun"
+                    }
+                  },
+                  "Property": "Rezago Óptimo"
+                }
+              },
+              "queryRef": "Okun.Rezago Óptimo",
+              "nativeQueryRef": "Rezago Óptimo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Okun"
+                    }
+                  },
+                  "Property": "Correlación Óptima"
+                }
+              },
+              "queryRef": "Okun.Correlación Óptima",
+              "nativeQueryRef": "Correlación Óptima"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Okun"
+                    }
+                  },
+                  "Property": "Coeficiente Okun"
+                }
+              },
+              "queryRef": "Okun.Coeficiente Okun",
+              "nativeQueryRef": "Coeficiente Okun"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Okun"
+                    }
+                  },
+                  "Property": "R² Okun"
+                }
+              },
+              "queryRef": "Okun.R² Okun",
+              "nativeQueryRef": "R² Okun"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Okun"
+                    }
+                  },
+                  "Property": "Crecimiento Neutral"
+                }
+              },
+              "queryRef": "Okun.Crecimiento Neutral",
+              "nativeQueryRef": "Crecimiento Neutral"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "name": "a985ac31b0d90b8a4b1f",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json"
+}

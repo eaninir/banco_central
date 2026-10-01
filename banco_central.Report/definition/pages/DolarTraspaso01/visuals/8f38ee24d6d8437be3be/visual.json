@@ -1,0 +1,98 @@
+{
+  "position": {
+    "x": 470,
+    "y": 20,
+    "z": 2000,
+    "height": 80,
+    "width": 1426,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dolar"
+                    }
+                  },
+                  "Property": "Dólar Último Mes"
+                }
+              },
+              "queryRef": "Dolar.Dólar Último Mes",
+              "nativeQueryRef": "Dólar Último Mes",
+              "displayName": "Dólar observado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dolar"
+                    }
+                  },
+                  "Property": "Var. Dólar 12m Último Mes"
+                }
+              },
+              "queryRef": "Dolar.Var. Dólar 12m Último Mes",
+              "nativeQueryRef": "Var. Dólar 12m Último Mes",
+              "displayName": "Variación 12 meses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TraspasoResumen"
+                    }
+                  },
+                  "Property": "Traspaso 3 Meses"
+                }
+              },
+              "queryRef": "TraspasoResumen.Traspaso 3 Meses",
+              "nativeQueryRef": "Traspaso 3 Meses",
+              "displayName": "Traspaso a 3 meses (alza 10%)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TraspasoResumen"
+                    }
+                  },
+                  "Property": "Traspaso 12 Meses"
+                }
+              },
+              "queryRef": "TraspasoResumen.Traspaso 12 Meses",
+              "nativeQueryRef": "Traspaso 12 Meses",
+              "displayName": "Traspaso a 12 meses (alza 10%)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TraspasoResumen"
+                    }
+                  },
+                  "Property": "Intervalo Traspaso 12m"
+                }
+              },
+              "queryRef": "TraspasoResumen.Intervalo Traspaso 12m",
+              "nativeQueryRef": "Intervalo Traspaso 12m",
+              "displayName": "Intervalo 95% (12 meses)"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "name": "8f38ee24d6d8437be3be",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json"
+}

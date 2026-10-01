@@ -1,0 +1,74 @@
+/// Resumen del traspaso (una fila)
+table TraspasoResumen
+	lineageTag: d77a9e4a-f968-45ef-b2ed-d01248ca4f59
+
+	/// Efecto en el IPC a 3 meses de un alza de 10% del dólar
+	measure 'Traspaso 3 Meses' = MAX('TraspasoResumen'[Traspaso3m])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 42488050-4371-4685-8dc0-7d9c6dbb3cd5
+
+	/// Efecto en el IPC a 12 meses de un alza de 10% del dólar
+	measure 'Traspaso 12 Meses' = MAX('TraspasoResumen'[Traspaso12m])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 6c676b92-3ba3-422b-8826-e87c3208510a
+
+	/// Intervalo de confianza 95% del traspaso a 12 meses
+	measure 'Intervalo Traspaso 12m' = FORMAT(MAX('TraspasoResumen'[LimInf12m]), "0.00", "es-CL") & " a " & FORMAT(MAX('TraspasoResumen'[LimSup12m]), "0.00", "es-CL") & " pp"
+		lineageTag: 1e04383c-0f6e-4aba-ad9d-0dfb47389ef5
+
+	measure 'Subtítulo Traspaso' = "pp de IPC tras un alza de 10% del dólar (datos desde " & MAX('TraspasoResumen'[Desde]) & "). Bandas: IC 95%"
+		lineageTag: 0d72df75-da88-4dca-a132-f6d27550a8e0
+
+	column Traspaso3m
+		dataType: double
+		lineageTag: a87fa6b0-357a-49f7-b910-6e92d40a9ed1
+		summarizeBy: none
+		sourceColumn: Traspaso3m
+
+	column Traspaso12m
+		dataType: double
+		lineageTag: 582d2cc4-6022-4813-b52b-1e1637e1142e
+		summarizeBy: none
+		sourceColumn: Traspaso12m
+
+	column LimInf12m
+		dataType: double
+		lineageTag: 669ef178-53d3-4b83-bf07-be3a3f0eb861
+		summarizeBy: none
+		sourceColumn: LimInf12m
+
+	column LimSup12m
+		dataType: double
+		lineageTag: 51c005b5-a76c-4333-ac59-8735af88efde
+		summarizeBy: none
+		sourceColumn: LimSup12m
+
+	column Traspaso12mDesde2001
+		dataType: double
+		lineageTag: 6de8ace2-ac3c-400a-9ce9-bd53c12c66d5
+		summarizeBy: none
+		sourceColumn: Traspaso12mDesde2001
+
+	column Meses
+		dataType: int64
+		lineageTag: a9ecc9bb-8687-41ca-8908-8a2e6edfbf0a
+		summarizeBy: none
+		sourceColumn: Meses
+
+	column Desde
+		dataType: int64
+		lineageTag: b21f0039-8991-4a73-91cf-d34df14e30b6
+		summarizeBy: none
+		sourceColumn: Desde
+
+	partition TraspasoResumen = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="traspaso_resumen",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Traspaso3m", type number}, {"Traspaso12m", type number}, {"LimInf12m", type number}, {"LimSup12m", type number}, {"Traspaso12mDesde2001", type number}, {"Meses", Int64.Type}, {"Desde", Int64.Type}})
+				in
+				    Typed
+

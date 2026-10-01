@@ -1,0 +1,130 @@
+table IPC
+	lineageTag: 658580b1-ed09-435e-85e0-68a796fbf662
+
+	measure 'Variación Promedio' = AVERAGE('IPC'[Variacion])
+		formatString: 0.00"%"
+		lineageTag: 5378af77-a8dd-49bf-9637-f09bdac48e1c
+
+	measure 'Variación Máxima' = MAX('IPC'[Variacion])
+		formatString: 0.00"%"
+		lineageTag: 4a9b07e4-45aa-481d-9979-ba07a120db0c
+
+	measure 'Variación Mínima' = MIN('IPC'[Variacion])
+		formatString: 0.00"%"
+		lineageTag: afeaf097-7501-467d-9094-f5293eea3bdf
+
+	measure 'Meses Registrados IPC' = COUNTROWS('IPC')
+		formatString: #,##0
+		lineageTag: 2f23647b-1cfa-4073-9e80-395722be7a36
+
+	/// Inflación acumulada de los últimos 12 meses (compuesta) al último mes del contexto
+	measure 'Inflación 12 Meses' =
+			VAR _fin = MAX('IPC'[Periodo])
+			VAR _ini = EDATE(_fin, -11)
+			VAR _meses =
+			    FILTER(
+			        ALL('IPC'),
+			        'IPC'[Periodo] >= _ini && 'IPC'[Periodo] <= _fin
+			    )
+			RETURN
+			IF(
+			    COUNTROWS(_meses) = 12,
+			    PRODUCTX(_meses, 1 + 'IPC'[Variacion] / 100) - 1
+			)
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 02921cbc-2059-4e01-8531-1a58622cde35
+
+	/// Inflación del año calendario: variaciones mensuales compuestas (dic-dic; año en curso = acumulado a la fecha)
+	measure 'Inflación Anual' =
+			IF(
+			    HASONEVALUE('IPC'[Año]),
+			    PRODUCTX('IPC', 1 + 'IPC'[Variacion] / 100) - 1
+			)
+		formatString: 0.0%
+		lineageTag: 6909fff2-7ce5-485f-9636-73d84abefe3a
+
+	/// Mediana de la variación de cada mes en toda la historia (ignora el slicer de Año; robusta a la hiperinflación)
+	measure 'Mediana Histórica' =
+			CALCULATE(
+			    MEDIAN('IPC'[Variacion]),
+			    ALLEXCEPT('IPC', 'IPC'[Mes], 'IPC'[MesNum])
+			)
+		formatString: 0.00"%"
+		lineageTag: 00b2774e-4850-4488-a453-8d93662b7790
+
+	/// Promedio de la variación de cada mes desde 2000 (régimen de metas de inflación; ignora el slicer de Año)
+	measure 'Promedio desde 2000' =
+			CALCULATE(
+			    AVERAGE('IPC'[Variacion]),
+			    ALLEXCEPT('IPC', 'IPC'[Mes], 'IPC'[MesNum]),
+			    'IPC'[Año] >= 2000
+			)
+		formatString: 0.00"%"
+		lineageTag: c1204ef6-e21b-4c6f-9805-da973f526004
+
+	column Año
+		dataType: int64
+		lineageTag: c2764c14-33e3-4ec7-9d27-ae461dfbd4c8
+		summarizeBy: sum
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: 46166f8f-a5cb-4112-8684-8e922e35d421
+		summarizeBy: none
+		sourceColumn: Mes
+		sortByColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Variacion
+		dataType: double
+		formatString: 0.00"%"
+		lineageTag: 10c8b1cb-215c-4b04-9970-899410a9e1f8
+		summarizeBy: sum
+		sourceColumn: Variacion
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesNum
+		dataType: int64
+		isHidden
+		lineageTag: 3120938e-765f-45dd-8d62-acb1282ed286
+		summarizeBy: sum
+		sourceColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Periodo
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b6bcbbc9-bf4b-4b56-a0b4-c2e70b01724f
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		variation Variación
+			isDefault
+			relationship: c4d1bee8-497f-4783-a3ac-9ce6a09d830d
+			defaultHierarchy: LocalDateTable_96426a8a-f0d3-4bc4-b560-36cecf4bc258.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition IPC = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    ipc_Sheet = Source{[Item="ipc",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(ipc_Sheet, [PromoteAllScalars=true]),
+				    Unpivoted = Table.UnpivotOtherColumns(Headers, {"Año"}, "Mes", "Variacion"),
+				    MesNum = Table.AddColumn(Unpivoted, "MesNum", each List.PositionOf({"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"}, [Mes]) + 1, Int64.Type),
+				    Periodo = Table.AddColumn(MesNum, "Periodo", each Date.From(#date([Año], [MesNum], 1)), type date),
+				    Typed = Table.TransformColumnTypes(Periodo, {{"Año", Int64.Type}, {"Variacion", type number}}),
+				    Filtered = Table.SelectRows(Typed, each [Variacion] <> null)
+				in
+				    Filtered
+

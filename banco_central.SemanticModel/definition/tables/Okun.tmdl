@@ -1,0 +1,96 @@
+/// Resultados de la ley de Okun (una fila)
+table Okun
+	lineageTag: 96e22d97-d674-4d1f-800d-c705ec4ec51b
+
+	/// Meses que tarda el desempleo en reaccionar al crecimiento
+	measure 'Rezago Óptimo' = MAX('Okun'[Rezago])
+		formatString: 0" mes(es)"
+		lineageTag: f6e10172-5fbe-47ff-85f2-96883a9509e8
+
+	measure 'Correlación Óptima' = MAX('Okun'[Correlacion])
+		formatString: +0.00;-0.00;0.00
+		lineageTag: 343c0e12-c13d-4b55-b631-c379d130ab2d
+
+	/// pp de desempleo por cada punto de crecimiento del Imacec
+	measure 'Coeficiente Okun' = MAX('Okun'[Pendiente])
+		formatString: +0.00" pp";-0.00" pp"
+		lineageTag: 851f32d3-35bf-4b3d-a01e-94f8d693d6f0
+
+	measure 'R² Okun' = MAX('Okun'[R2])
+		formatString: 0.00
+		lineageTag: 9480ca7a-692f-4fd7-88f4-bbcd0e659491
+
+	/// Crecimiento del Imacec con el que la tasa de desempleo se mantiene estable
+	measure 'Crecimiento Neutral' = MAX('Okun'[CrecimientoNeutral])
+		formatString: 0.0"%"
+		lineageTag: 37491a9d-a435-468d-9f05-1367865a4d84
+
+	measure 'Coeficiente Okun sin Pandemia' = MAX('Okun'[PendienteSinPandemia])
+		formatString: +0.00" pp";-0.00" pp"
+		lineageTag: 37a317d9-5c5c-4ffa-9acc-6db90b79ba7d
+
+	column Rezago
+		dataType: int64
+		lineageTag: a65a0384-208d-4339-8b7d-bfc4b2773b49
+		summarizeBy: none
+		sourceColumn: Rezago
+
+	column Correlacion
+		dataType: double
+		lineageTag: 203a4d01-07c6-47b3-bd45-dc0a7ff538fc
+		summarizeBy: none
+		sourceColumn: Correlacion
+
+	column Pendiente
+		dataType: double
+		lineageTag: b0b49d96-be5a-4113-a34d-fc26d623de07
+		summarizeBy: none
+		sourceColumn: Pendiente
+
+	column Intercepto
+		dataType: double
+		lineageTag: 525d96aa-766c-4e65-8b92-0d778c23fb69
+		summarizeBy: none
+		sourceColumn: Intercepto
+
+	column R2
+		dataType: double
+		lineageTag: 09104b1a-249c-415e-9a15-7550a0b09440
+		summarizeBy: none
+		sourceColumn: R2
+
+	column CrecimientoNeutral
+		dataType: double
+		lineageTag: d070d0a8-3e82-401f-9987-d95c67f6917b
+		summarizeBy: none
+		sourceColumn: CrecimientoNeutral
+
+	column PendienteSinPandemia
+		dataType: double
+		lineageTag: 53be2c45-2960-4c43-9934-9ec71262c7f5
+		summarizeBy: none
+		sourceColumn: PendienteSinPandemia
+
+	column R2SinPandemia
+		dataType: double
+		lineageTag: 441a8409-140b-40d6-8d11-39b73ced60ef
+		summarizeBy: none
+		sourceColumn: R2SinPandemia
+
+	column Meses
+		dataType: int64
+		lineageTag: 3ec79ca1-8987-4ce4-a995-114660d47e54
+		summarizeBy: none
+		sourceColumn: Meses
+
+	partition Okun = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="okun",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Rezago", Int64.Type}, {"Correlacion", type number}, {"Pendiente", type number}, {"Intercepto", type number}, {"R2", type number}, {"CrecimientoNeutral", type number}, {"PendienteSinPandemia", type number}, {"R2SinPandemia", type number}, {"Meses", Int64.Type}})
+				in
+				    Typed
+

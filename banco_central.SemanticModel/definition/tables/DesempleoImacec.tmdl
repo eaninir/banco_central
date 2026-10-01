@@ -1,0 +1,79 @@
+/// Variación anual del desempleo vs. crecimiento anual del Imacec (calculado por actualizar_datos.py)
+table DesempleoImacec
+	lineageTag: 38e589ac-0cc3-4462-9d00-b642ed8b5f27
+
+	/// Variación de la tasa de desempleo vs. el mismo mes del año anterior
+	measure 'Var. Desempleo' = AVERAGE('DesempleoImacec'[VarDesempleo])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 410d2fae-f701-4d92-a723-0b6db38aeab4
+
+	/// Crecimiento anual del Imacec (promedio móvil de 3 meses)
+	measure 'Crecimiento Imacec' = AVERAGE('DesempleoImacec'[CrecImacec])
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: 5ad14cc2-070c-47a0-9fcd-92f51bb22e07
+
+	/// Crecimiento del Imacec desplazado en el rezago óptimo
+	measure 'Crecimiento Imacec Rezagado' = AVERAGE('DesempleoImacec'[CrecImacecRezagado])
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: bbe54c39-9509-4fc8-9b70-4b21a8a6ff26
+
+	/// Variación del desempleo que predice la ley de Okun
+	measure 'Var. Desempleo Predicha' = AVERAGE('DesempleoImacec'[VarDesempleoPredicha])
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 115de9e1-e43f-433b-9e17-06733707677c
+
+	column Periodo
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 133ed9ec-dbf4-4328-a93a-76a2c5678f3a
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VarDesempleo
+		dataType: double
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: a7c58f42-a5d6-431d-b7db-54394cf001dc
+		summarizeBy: none
+		sourceColumn: VarDesempleo
+
+	column CrecImacec
+		dataType: double
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: bd29bfa7-5740-471e-ae34-4571f43918b6
+		summarizeBy: none
+		sourceColumn: CrecImacec
+
+	column CrecImacecRezagado
+		dataType: double
+		formatString: +0.0"%";-0.0"%";0.0"%"
+		lineageTag: 1960137b-b81f-4406-8158-3fc34c662070
+		summarizeBy: none
+		sourceColumn: CrecImacecRezagado
+
+	column VarDesempleoPredicha
+		dataType: double
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		lineageTag: 668af451-3723-4c31-86c3-f3cb43bf400b
+		summarizeBy: none
+		sourceColumn: VarDesempleoPredicha
+
+	column Pandemia
+		dataType: int64
+		isHidden
+		lineageTag: 9378b663-23f1-4862-8909-4bf3ee3d82f8
+		summarizeBy: none
+		sourceColumn: Pandemia
+
+	partition DesempleoImacec = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="desempleo_imacec",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Periodo", type date}, {"VarDesempleo", type number}, {"CrecImacec", type number}, {"CrecImacecRezagado", type number}, {"VarDesempleoPredicha", type number}, {"Pandemia", Int64.Type}})
+				in
+				    Typed
+

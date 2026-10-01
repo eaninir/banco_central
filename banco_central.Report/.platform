@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "banco_central"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ae6bdcb6-77f7-4034-adcc-787d4d426ef4"
+  }
+}

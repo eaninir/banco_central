@@ -1,0 +1,52 @@
+/// Resumen de rezagos de política monetaria (una fila)
+table PMResumen
+	lineageTag: d378d226-a5ce-4c37-a32d-d4746834682c
+
+	/// Meses que tarda la TPM en responder a la inflación
+	measure 'Rezago Reacción' = MAX('PMResumen'[RezagoReaccion])
+		formatString: 0" meses"
+		lineageTag: d913406a-31b6-4410-a605-c4e6c95ae6be
+
+	/// Meses en que el efecto de la TPM sobre la inflación es máximo
+	measure 'Rezago Efecto' = MAX('PMResumen'[RezagoEfecto])
+		formatString: 0" meses"
+		lineageTag: 3ed057c8-a7b3-47c4-99dd-3dc1d5df7dc7
+
+	measure 'Subtítulo Rezagos' = "Reacción: la TPM sigue a la inflación con " & [Rezago Reacción] & " meses de rezago. Efecto: las alzas de TPM se asocian a menor inflación ~" & [Rezago Efecto] & " meses después"
+		lineageTag: 6c157843-2745-414b-92c9-786b190ce2a0
+
+	column RezagoReaccion
+		dataType: int64
+		lineageTag: ed25b46b-3fc5-496d-bcb6-0688d035c438
+		summarizeBy: none
+		sourceColumn: RezagoReaccion
+
+	column CorrReaccion
+		dataType: double
+		lineageTag: ee29950d-eaa2-4411-9bf6-1e21d4dc3788
+		summarizeBy: none
+		sourceColumn: CorrReaccion
+
+	column RezagoEfecto
+		dataType: int64
+		lineageTag: 53983673-845b-4c7d-93a0-d2324c904998
+		summarizeBy: none
+		sourceColumn: RezagoEfecto
+
+	column CorrEfecto
+		dataType: double
+		lineageTag: 5ac75fe9-bbd5-4e46-8cf9-8aa54c648319
+		summarizeBy: none
+		sourceColumn: CorrEfecto
+
+	partition PMResumen = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Usuario\Documents\claude\banco_central\banco_central.xlsx"), null, true),
+				    Hoja = Source{[Item="pm_resumen",Kind="Sheet"]}[Data],
+				    Headers = Table.PromoteHeaders(Hoja, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"RezagoReaccion", Int64.Type}, {"CorrReaccion", type number}, {"RezagoEfecto", Int64.Type}, {"CorrEfecto", type number}})
+				in
+				    Typed
+

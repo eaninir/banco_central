@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
+  "pageOrder": [
+    "ReportSectionda670e760f57e3828c852792",
+    "ReportSectione6573b690040791adc943334",
+    "DesempleoImacec01",
+    "PoliticaMonetaria01",
+    "DolarTraspaso01"
+  ],
+  "activePageName": "DolarTraspaso01"
+}
