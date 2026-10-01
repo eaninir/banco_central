@@ -1,14 +1,14 @@
 """Actualiza banco_central.xlsx (hojas ipc y desempleo) con los últimos datos publicados.
 
-Fuente: mindicador.cl, que republica las series del Banco Central de Chile sin requerir
-credenciales. Opcionalmente, para el IPC se puede usar la API oficial del Banco Central
-(BDE) definiendo la variable de entorno BCCH_TOKEN (Apikey Token de "Mi cuenta"), o bien
-BCCH_USER y BCCH_PASS.
+Fuente única: API de la Base de Datos Estadísticos (BDE) del Banco Central de Chile.
+Requiere la variable de entorno BCCH_TOKEN (Apikey Token de "Mi cuenta" en
+https://si3.bcentral.cl/Siete/ES/Siete/API, vigencia de un año).
 
 Solo agrega meses nuevos o corrige valores revisados; nunca borra datos existentes.
-Antes de escribir guarda una copia en respaldos/. Además recalcula la hoja desempleo_stl
-(descomposición STL robusta + punto de inflexión de la tendencia; requiere statsmodels) y,
-con BCCH_TOKEN, las hojas imacec, desempleo_imacec, rezagos y okun (relación con el Imacec).
+Antes de escribir guarda una copia en respaldos/. Además recalcula las hojas de análisis:
+desempleo_stl (STL robusta + punto de inflexión; requiere statsmodels), imacec,
+desempleo_imacec, rezagos y okun, politica_monetaria, pm_rezagos, pm_resumen, dolar,
+traspaso y traspaso_resumen.
 
 Uso:
     python actualizar_datos.py            # actualiza el Excel
@@ -30,9 +30,11 @@ EXCEL = os.path.join(CARPETA, "banco_central.xlsx")
 MESES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
          "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-# Código de la serie IPC (variación mensual) en la BDE del Banco Central. Solo se usa
-# si hay credenciales; verificar en https://si3.bcentral.cl/siete si la API lo rechaza.
+# Series de la BDE del Banco Central
+# IPC general histórico, variación mensual (%)
 BCCH_SERIE_IPC = "F074.IPC.VAR.Z.Z.C.M"
+# Tasa de desocupación nacional, no ajustada estacionalmente (INE, trimestre móvil)
+BCCH_SERIE_DESEMPLEO = "F049.DES.TAS.INE9.10.M"
 # Imacec empalmado, serie original (índice 2018=100)
 BCCH_SERIE_IMACEC = "F032.IMC.IND.Z.Z.EP18.Z.Z.0.M"
 # Tasa de política monetaria (promedio mensual) y expectativas de inflación a 12 meses (EEE, mediana)
@@ -50,17 +52,6 @@ def obtener_json(url):
         return json.loads(crudo.decode("utf-8"))
     except UnicodeDecodeError:  # la API del Banco Central a veces responde en latin-1
         return json.loads(crudo.decode("latin-1"))
-
-
-def serie_mindicador(codigo, anios):
-    """Devuelve {(año, mes): valor} para los años pedidos."""
-    datos = {}
-    for anio in anios:
-        for punto in obtener_json(f"https://mindicador.cl/api/{codigo}/{anio}")["serie"]:
-            # La fecha viene en UTC (ej. 2026-07-01T04:00:00Z = 1 de julio en Chile)
-            f = datetime.fromisoformat(punto["fecha"].replace("Z", "+00:00"))
-            datos[(f.year, f.month)] = round(float(punto["valor"]), 2)
-    return datos
 
 
 def variable_entorno(nombre):
@@ -83,23 +74,15 @@ def variable_entorno(nombre):
 
 
 def serie_bcch(codigo, desde):
-    # Preferir el Apikey Token (Mi cuenta en la BDE, vigencia 1 año); si no, correo + contraseña
-    token = variable_entorno("BCCH_TOKEN")
-    usuario, clave = variable_entorno("BCCH_USER"), variable_entorno("BCCH_PASS")
-    if token:
-        credenciales = {"token": token}
-    elif usuario and clave:
-        credenciales = {"user": usuario, "pass": clave}
-    else:
-        return {}
+    """Serie mensual de la API del Banco Central como {(año, mes): valor}."""
     params = urllib.parse.urlencode({
-        **credenciales, "function": "GetSeries", "timeseries": codigo,
+        "token": variable_entorno("BCCH_TOKEN"), "function": "GetSeries", "timeseries": codigo,
         "firstdate": f"{desde}-01-01", "lastdate": date.today().isoformat(),
     })
     resp = obtener_json(f"https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?{params}")
     if resp.get("Codigo") != 0:
-        print(f"  ! API Banco Central respondió: {resp.get('Descripcion')}")
-        return {}
+        sys.exit(f"API del Banco Central respondió: {resp.get('Descripcion')} "
+                 f"(¿token vencido? renuévalo en Mi cuenta de la BDE)")
     datos = {}
     for obs in resp["Series"]["Obs"]:
         if obs.get("statusCode") == "OK":
@@ -241,9 +224,6 @@ def analizar_imacec(wb, max_rezago=24, pandemia=("2020-03-01", "2021-12-01")):
     import numpy as np
     import pandas as pd
 
-    if not variable_entorno("BCCH_TOKEN"):
-        print("  Omitido: falta la variable BCCH_TOKEN (Imacec viene de la API del Banco Central)")
-        return
 
     imacec = serie_bcch_completa(BCCH_SERIE_IMACEC)
     datos, _ = leer_hoja(wb["desempleo"])
@@ -301,9 +281,6 @@ def analizar_politica_monetaria(wb, desde="2001-01-01", max_rezago=36):
     import numpy as np
     import pandas as pd
 
-    if not variable_entorno("BCCH_TOKEN"):
-        print("  Omitido: falta la variable BCCH_TOKEN")
-        return
 
     tpm = serie_bcch_completa(BCCH_SERIE_TPM, desde)
     expectativas = serie_bcch_completa(BCCH_SERIE_EXPECTATIVAS, desde)
@@ -375,9 +352,6 @@ def analizar_dolar(wb, desde="2010-01-01", desde_comparacion="2001-01-01"):
     import numpy as np
     import pandas as pd
 
-    if not variable_entorno("BCCH_TOKEN"):
-        print("  Omitido: falta la variable BCCH_TOKEN")
-        return
 
     dolar = serie_bcch_completa(BCCH_SERIE_DOLAR, "1999-01-01")
     datos, _ = leer_hoja(wb["ipc"])
@@ -414,19 +388,18 @@ def analizar_dolar(wb, desde="2010-01-01", desde_comparacion="2001-01-01"):
 def main():
     sys.stdout.reconfigure(encoding="utf-8")  # acentos en la consola de Windows
     simular = "--simular" in sys.argv
-    hoy = date.today()
-    anios = [hoy.year - 1, hoy.year]
+    if not variable_entorno("BCCH_TOKEN"):
+        sys.exit("Falta la variable de entorno BCCH_TOKEN (Apikey Token de la API del Banco Central).")
+    desde = date.today().year - 1  # revisa el año anterior y el actual
 
     wb = load_workbook(EXCEL)
     total = 0
 
     print("IPC (variación mensual, %):")
-    ipc = serie_mindicador("ipc", anios)
-    ipc.update(serie_bcch(BCCH_SERIE_IPC, anios[0]))  # la fuente oficial tiene prioridad
-    total += actualizar_hoja(wb["ipc"], ipc, simular)
+    total += actualizar_hoja(wb["ipc"], serie_bcch(BCCH_SERIE_IPC, desde), simular)
 
     print("Desempleo (tasa, %):")
-    total += actualizar_hoja(wb["desempleo"], serie_mindicador("tasa_desempleo", anios), simular)
+    total += actualizar_hoja(wb["desempleo"], serie_bcch(BCCH_SERIE_DESEMPLEO, desde), simular)
 
     if simular:
         print("\nNo se escribió nada.")

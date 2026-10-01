@@ -23,12 +23,12 @@ python actualizar_datos.py --simular  # muestra los cambios sin escribir
 
 Luego, en Power BI Desktop: abrir `banco_central.pbip` → **Inicio → Actualizar**.
 
-### Fuentes
+### Fuente
 
-- **API BDE del Banco Central** (IPC, Imacec, TPM, expectativas, dólar): requiere la variable de
-  entorno `BCCH_TOKEN` con el *Apikey Token* de "Mi cuenta" en
-  https://si3.bcentral.cl/Siete/ES/Siete/API (vigencia de un año).
-- **mindicador.cl** (tasa de desempleo, y respaldo del IPC): sin credenciales.
+Todos los datos provienen de la **API de la Base de Datos Estadísticos (BDE) del Banco Central de
+Chile**: IPC, tasa de desocupación (elaborada por el INE y publicada en la BDE), Imacec, TPM,
+expectativas de inflación (EEE) y dólar observado. Requiere la variable de entorno `BCCH_TOKEN` con
+el *Apikey Token* de "Mi cuenta" en https://si3.bcentral.cl/Siete/ES/Siete/API (vigencia de un año).
 
 El script solo agrega meses nuevos o corrige valores revisados, y guarda una copia del Excel en
 `respaldos/` antes de escribir.
